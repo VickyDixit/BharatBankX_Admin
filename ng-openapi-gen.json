@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/ng-openapi-gen/ng-openapi-gen-schema.json",
+  "input": "swagger.json",
+  "output": "src/app/api",
+  "module": "ApiModule",
+  "removeStaleFiles": true,
+  "indexFile": true,
+  "services": true,
+  "serviceIndex": true
+}

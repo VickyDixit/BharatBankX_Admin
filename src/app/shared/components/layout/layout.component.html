@@ -1,0 +1,22 @@
+<div class="admin-shell">
+  <app-sidebar
+    [(collapsed)]="sidebarCollapsed"
+    [mobileOpen]="mobileOpen"
+    (mobileOpenChange)="mobileOpen = $event">
+  </app-sidebar>
+
+  <div class="main-area">
+    <app-topbar (menuToggle)="mobileOpen = !mobileOpen"></app-topbar>
+    <main class="page-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <div class="mobile-overlay" 
+       [class.active]="mobileOpen"
+       (click)="mobileOpen = false">
+  </div>
+
+    <!-- Toast notifications -->
+  <app-toast-container></app-toast-container>
+</div>

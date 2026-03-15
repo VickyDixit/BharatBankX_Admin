@@ -1,0 +1,112 @@
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Workflows</h1>
+    <p class="page-subtitle">Bank-specific workflow configurations</p>
+  </div>
+  <button class="btn btn-primary" (click)="openModal()">
+    <span class="material-icons-round">add</span> Add Workflow
+  </button>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="toolbar">
+      <div class="search-box">
+        <span class="material-icons-round">search</span>
+        <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" (input)="applyFilter()">
+      </div>
+    </div>
+    <span class="record-count">{{filtered.length}} records</span>
+  </div>
+
+  <div class="table-wrapper">
+    <div *ngIf="loading" class="loading-spinner"><div class="spinner"></div></div>
+    <table *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Code</th>
+          <th>Bank</th>
+          <th>Master Workflow</th>
+          <th>Steps</th>
+          <th>Version</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of paginated">
+          <!-- TODO: bind your fields here -->
+          <td class="td-id">{{item.id}}</td>
+          <td colspan="7">— fill in columns —</td>
+          <td>
+            <div class="td-actions">
+              <button class="btn-icon" (click)="openModal(item)"><span class="material-icons-round">edit</span></button>
+              <button class="btn-icon danger" (click)="confirmDelete(item)"><span class="material-icons-round">delete</span></button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="paginated.length === 0">
+          <td colspan="9">
+            <div class="empty-state">
+              <span class="material-icons-round">schema</span>
+              <p>No workflows found</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination" *ngIf="!loading && totalPages > 1">
+    <span class="pagination-info">Showing {{(page-1)*pageSize+1}}–{{min(page*pageSize, filtered.length)}} of {{filtered.length}}</span>
+    <div class="pagination-controls">
+      <button class="page-btn" (click)="page=1" [disabled]="page===1">«</button>
+      <button class="page-btn" (click)="page=page-1" [disabled]="page===1">‹</button>
+      <button class="page-btn" *ngFor="let p of pageNumbers()" [class.active]="p===page" (click)="page=p">{{p}}</button>
+      <button class="page-btn" (click)="page=page+1" [disabled]="page===totalPages">›</button>
+      <button class="page-btn" (click)="page=totalPages" [disabled]="page===totalPages">»</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add / Edit Modal -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3 class="modal-title">{{editItem ? 'Edit' : 'Add'}} Workflow</h3>
+      <button class="modal-close" (click)="closeModal()"><span class="material-icons-round">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <!-- TODO: add your form fields here -->
+        <div class="form-group" style="grid-column: 1 / -1">
+          <label>Field</label>
+          <input type="text" [(ngModel)]="form.field" placeholder="...">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" (click)="closeModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="save()" [disabled]="saving">
+        {{saving ? 'Saving...' : (editItem ? 'Update' : 'Create')}}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete -->
+<div class="modal-overlay" *ngIf="showConfirm" (click)="showConfirm=false">
+  <div class="modal-box sm" (click)="$event.stopPropagation()">
+    <div class="modal-body" style="text-align:center; padding:32px 24px">
+      <div class="confirm-icon"><span class="material-icons-round">delete</span></div>
+      <h3 style="margin-bottom:8px">Confirm Delete</h3>
+      <p style="color:var(--text-secondary)">This action cannot be undone.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" (click)="showConfirm=false">Cancel</button>
+      <button class="btn btn-danger" (click)="deleteItem()">Delete</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="pagination-bar" *ngIf="totalPages > 1 || totalCount > 0">
+
+  <div class="pagination-left">
+    <span class="pagination-info">
+      Showing {{ rangeStart }}–{{ rangeEnd }} of {{ totalCount }} records
+    </span>
+    <div class="page-size-selector">
+      <span>Rows per page:</span>
+      <select [(ngModel)]="pageSize" (ngModelChange)="onPageSizeChange($event)">
+        <option *ngFor="let s of pageSizeOptions" [value]="s">{{ s }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="pagination-controls" *ngIf="totalPages > 1">
+    <button class="page-btn nav-btn" (click)="go(1)"          [disabled]="page === 1"          title="First">«</button>
+    <button class="page-btn nav-btn" (click)="go(page - 1)"   [disabled]="page === 1"          title="Previous">‹</button>
+
+    <button
+      *ngFor="let p of pages"
+      class="page-btn"
+      [class.active]="p === page"
+      (click)="go(p)">
+      {{ p }}
+    </button>
+
+    <button class="page-btn nav-btn" (click)="go(page + 1)"   [disabled]="page === totalPages" title="Next">›</button>
+    <button class="page-btn nav-btn" (click)="go(totalPages)"  [disabled]="page === totalPages" title="Last">»</button>
+  </div>
+
+</div>

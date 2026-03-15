@@ -1,0 +1,266 @@
+/* ===== OVERLAY ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: overlayIn 0.2s ease;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ===== MODAL BOX ===== */
+.modal-box {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18), 0 4px 16px rgba(15, 23, 42, 0.08);
+  width: min(860px, 92vw);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: modalIn 0.25s cubic-bezier(0.34, 1.3, 0.64, 1);
+  overflow: hidden;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ===== HEADER ===== */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid #e8edf5;
+}
+
+.modal-header h3 {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #f1f5f9;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  font-size: 0.85rem;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* ===== BODY ===== */
+.modal-body {
+  padding: 24px 28px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* ===== FORM GRID ===== */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 24px;
+}
+
+/* ===== FORM GROUP ===== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Checkbox group gets special horizontal layout */
+.form-group.is-checkbox {
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.form-group label {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #374151;
+  letter-spacing: 0.01em;
+}
+
+.form-group label span {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+/* ===== INPUTS ===== */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px 13px;
+  border: 1.5px solid #dde3ee;
+  border-radius: 8px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.9rem;
+  color: #0f172a;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+  appearance: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.form-group input:disabled,
+.form-group textarea:disabled,
+.form-group select:disabled {
+  background: #f8fafc;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #b0bac9;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.form-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+/* ===== CHECKBOX ===== */
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0 4px;
+}
+
+.form-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #dde3ee;
+  border-radius: 5px;
+  accent-color: #1e3a5f;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+/* ===== FOOTER ===== */
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 18px 28px 22px;
+  border-top: 1px solid #e8edf5;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 24px;
+  border-radius: 9px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+  letter-spacing: 0.01em;
+  min-width: 88px;
+}
+
+.btn-outline {
+  background: #ffffff;
+  color: #374151;
+  border: 1.5px solid #dde3ee;
+}
+
+.btn-outline:hover {
+  background: #f8fafc;
+  border-color: #c0cad8;
+}
+
+.btn-primary {
+  background: #1e3a5f;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(30, 58, 95, 0.25);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #162d4a;
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group[style*="1 / -1"] {
+    grid-column: 1 !important;
+  }
+
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}

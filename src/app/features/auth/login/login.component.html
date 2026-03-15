@@ -1,0 +1,137 @@
+<div class="login-wrapper">
+
+  <!-- Left Panel -->
+  <div class="login-left">
+    <div class="left-content">
+      <div class="brand">
+        <div class="brand-icon">
+          <span class="material-icons">account_balance</span>
+        </div>
+        <div class="brand-text">
+          <h1>BharatBankX</h1>
+          <span>ADMIN PANEL</span>
+        </div>
+      </div>
+
+      <div class="left-info">
+        <h2>CSP Automation System</h2>
+        <p>Manage banks, agents, workflows and transactions from a single unified platform.</p>
+
+        <div class="info-points">
+          <div class="info-point">
+            <span class="material-icons">verified_user</span>
+            <span>Secure role-based access</span>
+          </div>
+          <div class="info-point">
+            <span class="material-icons">schema</span>
+            <span>Multi-bank workflow automation</span>
+          </div>
+          <div class="info-point">
+            <span class="material-icons">insights</span>
+            <span>Real-time transaction monitoring</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="left-footer">
+        <span>© 2026 BharatBankX · v2.0.0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel — Login Form -->
+  <div class="login-right">
+    <div class="login-card">
+
+      <!-- Mobile Brand (visible on small screens only) -->
+      <div class="mobile-brand">
+        <div class="brand-icon small">
+          <span class="material-icons">account_balance</span>
+        </div>
+        <div class="brand-text">
+          <h2>BharatBankX</h2>
+          <span>ADMIN PANEL</span>
+        </div>
+      </div>
+
+      <div class="card-header">
+        <h2>Welcome back</h2>
+        <p>Sign in to your admin account</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" autocomplete="off">
+
+        <!-- Error Alert -->
+        <div class="alert alert-error" *ngIf="errorMessage">
+          <span class="material-icons">error_outline</span>
+          <span>{{ errorMessage }}</span>
+        </div>
+
+        <!-- Username -->
+        <div class="form-group" [class.error]="isFieldInvalid('username')">
+          <label for="username">Username</label>
+          <div class="input-wrapper">
+            <span class="material-icons input-icon">person_outline</span>
+            <input
+              id="username"
+              type="text"
+              formControlName="username"
+              placeholder="Username"
+              autocomplete="username"
+            />
+          </div>
+          <span class="field-error" *ngIf="isFieldInvalid('username')">
+            Username is required
+          </span>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group" [class.error]="isFieldInvalid('password')">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <span class="material-icons input-icon">lock_outline</span>
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="Password"
+              autocomplete="current-password"
+            />
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="togglePassword()"
+              tabindex="-1"
+            >
+              <span class="material-icons">
+                {{ showPassword ? 'visibility_off' : 'visibility' }}
+              </span>
+            </button>
+          </div>
+          <span class="field-error" *ngIf="isFieldInvalid('password')">
+            Password is required
+          </span>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="btn-login"
+          [disabled]="isLoading"
+        >
+          <span class="material-icons btn-icon" *ngIf="!isLoading">login</span>
+          <span class="spinner" *ngIf="isLoading"></span>
+          {{ isLoading ? 'Signing in...' : 'Sign In' }}
+        </button>
+
+      </form>
+
+      <div class="card-footer">
+        <span class="material-icons">shield</span>
+        <span>Secured with JWT Authentication</span>
+      </div>
+
+    </div>
+  </div>
+
+</div>

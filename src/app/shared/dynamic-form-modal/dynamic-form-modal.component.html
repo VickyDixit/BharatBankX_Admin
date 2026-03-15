@@ -1,0 +1,78 @@
+<div class="modal-overlay" *ngIf="show" (click)="close.emit()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="modal-header">
+      <h3>{{ title }}</h3>
+      <button class="modal-close" (click)="close.emit()">✕</button>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body">
+      <div class="form-grid">
+
+        <div
+          class="form-group"
+          [class.is-checkbox]="field.type === 'checkbox'"
+          *ngFor="let field of fields"
+          [style.gridColumn]="field.type === 'textarea' ? '1 / -1' : ''">
+
+          <label>
+            {{ field.label }}
+            <span *ngIf="field.required">*</span>
+          </label>
+
+          <!-- TEXT / EMAIL / PASSWORD / NUMBER / DATE -->
+          <input
+            *ngIf="['text','email','password','number','date'].includes(field.type)"
+            [type]="field.type"
+            [(ngModel)]="form[field.key]"
+            [placeholder]="field.placeholder || ''"
+            [required]="!!field.required"
+            [disabled]="!!field.disabled">
+
+          <!-- TEXTAREA -->
+          <textarea
+            *ngIf="field.type === 'textarea'"
+            [(ngModel)]="form[field.key]"
+            [placeholder]="field.placeholder || ''"
+            [required]="!!field.required"
+            [disabled]="!!field.disabled">
+          </textarea>
+
+          <!-- SELECT -->
+          <select
+            *ngIf="field.type === 'select'"
+            [(ngModel)]="form[field.key]">
+            <option *ngFor="let opt of field.options" [value]="opt.value">
+              {{ opt.label }}
+            </option>
+          </select>
+
+          <!-- CHECKBOX — wrapped so it sits beside the label nicely -->
+          <div class="checkbox-wrapper" *ngIf="field.type === 'checkbox'">
+            <input
+              type="checkbox"
+              [id]="field.key"
+              [(ngModel)]="form[field.key]"
+              [disabled]="!!field.disabled">
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <button class="btn btn-outline" (click)="close.emit()">Cancel</button>
+      <button
+        class="btn btn-primary"
+        (click)="onSave()"
+        [disabled]="saving">
+        {{ saving ? 'Saving...' : 'Save' }}
+      </button>
+    </div>
+
+  </div>
+</div>

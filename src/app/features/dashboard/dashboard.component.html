@@ -1,0 +1,53 @@
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Dashboard</h1>
+    <p class="page-subtitle">BharatBankX CSP Automation — Overview</p>
+  </div>
+  <span class="date-chip">{{ today | date:'dd MMM yyyy, EEE' }}</span>
+</div>
+
+<!-- Stats Grid -->
+<div class="stats-grid">
+  <div class="stat-card" *ngFor="let s of stats">
+    <div class="stat-icon {{ s.color }}">
+      <span class="material-icons-round">{{ s.icon }}</span>
+    </div>
+    <div>
+      <div class="stat-value">{{ s.value }}</div>
+      <div class="stat-label">{{ s.label }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Dashboard Grid -->
+<div class="dashboard-grid">
+  <!-- Quick Links -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Quick Actions</span>
+    </div>
+    <div class="quick-links">
+      <a *ngFor="let q of quickLinks" [routerLink]="q.route" class="quick-link">
+        <div class="ql-icon {{ q.color }}">
+          <span class="material-icons-round">{{ q.icon }}</span>
+        </div>
+        <span>{{ q.label }}</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- System Info -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">System Info</span>
+    </div>
+    <div class="card-body">
+      <div class="info-rows">
+        <div class="info-row" *ngFor="let info of systemInfo">
+          <span class="info-label">{{ info.label }}</span>
+          <span class="info-val">{{ info.value }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

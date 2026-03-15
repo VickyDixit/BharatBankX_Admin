@@ -1,0 +1,37 @@
+<aside class="sidebar" [class.collapsed]="collapsed" [class.mobile-open]="mobileOpen">
+
+  <div class="sidebar-brand">
+    <div class="brand-icon">
+      <span class="material-icons-round">account_balance</span>
+    </div>
+    <div class="brand-text" *ngIf="!collapsed">
+      <span class="brand-name">BharatBankX</span>
+      <span class="brand-sub">Admin Panel</span>
+    </div>
+  </div>
+
+  <div class="sidebar-section-label" *ngIf="!collapsed">MAIN</div>
+
+  <nav class="sidebar-nav">
+    <p
+      *ngFor="let item of navItems"
+      [routerLink]="item.route"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="nav-item"
+      [attr.title]="collapsed ? item.label : null">
+      <span class="material-icons-round">{{ item.icon }}</span>
+      <span class="nav-label" *ngIf="!collapsed">{{ item.label }}</span>
+  </p>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="nav-item" (click)="toggleCollapse()">
+      <span class="material-icons-round">
+        {{ collapsed ? 'chevron_right' : 'chevron_left' }}
+      </span>
+      <span class="nav-label" *ngIf="!collapsed">Collapse</span>
+    </button>
+  </div>
+
+</aside>

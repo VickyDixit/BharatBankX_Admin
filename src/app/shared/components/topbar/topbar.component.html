@@ -1,0 +1,130 @@
+<header class="topbar">
+  <button class="mobile-toggle" (click)="menuToggle.emit()">
+    <span class="material-icons-round">menu</span>
+  </button>
+
+  <div class="topbar-center">
+    <div class="search-box">
+      <span class="material-icons-round">search</span>
+      <input type="text" placeholder="Search anything...">
+    </div>
+  </div>
+
+  <div class="topbar-right">
+    <button class="topbar-icon-btn" title="Notifications">
+      <span class="material-icons-round">notifications_none</span>
+      <span class="notif-dot"></span>
+    </button>
+    <button class="topbar-icon-btn" title="Help">
+      <span class="material-icons-round">help_outline</span>
+    </button>
+
+    <!-- Avatar Section -->
+    <div class="avatar-section">
+
+      <!-- Topbar Row: avatar + name + chevron + logout btn -->
+      <div class="topbar-user-row">
+
+        <div class="topbar-user-info" (click)="toggleDropdown()">
+          <div class="topbar-avatar-icon">
+            <img *ngIf="userPhoto" [src]="userPhoto" class="topbar-avatar-img" />
+            <span *ngIf="!userPhoto" class="topbar-avatar-letter">
+              {{ userName.charAt(0).toUpperCase() }}
+            </span>
+          </div>
+          <div class="topbar-user-text">
+            <span class="topbar-user-name">{{ userName }}</span>
+            <span class="topbar-user-role">{{ userRole }}</span>
+          </div>
+          <span class="material-icons-round topbar-chevron">
+            {{ showDropdown ? 'expand_less' : 'expand_more' }}
+          </span>
+        </div>
+
+        <!-- Logout icon button -->
+        <button class="topbar-icon-btn topbar-logout-btn"
+                title="Logout"
+                (click)="askLogout(); $event.stopPropagation()">
+          <span class="material-icons-round">logout</span>
+        </button>
+
+      </div>
+
+      <!-- User Details Dropdown -->
+      <div class="user-dropdown" *ngIf="showDropdown">
+        <div class="user-dropdown-card">
+          <div class="user-dropdown-avatar">
+            <img *ngIf="userPhoto" [src]="userPhoto" class="udd-avatar-img" />
+            <span *ngIf="!userPhoto" class="udd-avatar-letter">
+              {{ userName.charAt(0).toUpperCase() }}
+            </span>
+          </div>
+          <div class="user-dropdown-info">
+            <span class="udd-name">{{ userName }}</span>
+            <span class="udd-role">{{ userRole }}</span>
+          </div>
+        </div>
+
+        <div class="udd-divider"></div>
+
+        <div class="udd-details">
+          <div class="udd-row" *ngIf="userEmail">
+            <span class="material-icons-round">email</span>
+            <div>
+              <span class="udd-label">Email</span>
+              <span class="udd-value">{{ userEmail }}</span>
+            </div>
+          </div>
+          <div class="udd-row" *ngIf="userMobile">
+            <span class="material-icons-round">phone</span>
+            <div>
+              <span class="udd-label">Mobile</span>
+              <span class="udd-value">{{ userMobile }}</span>
+            </div>
+          </div>
+          <div class="udd-row" *ngIf="userId">
+            <span class="material-icons-round">badge</span>
+            <div>
+              <span class="udd-label">Agent ID</span>
+              <span class="udd-value">#{{ userId }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="udd-divider"></div>
+
+        <button class="udd-edit-btn" (click)="openEditModal()">
+          <span class="material-icons-round">edit</span>
+          Edit Profile
+        </button>
+      </div>
+
+      <!-- Logout Confirmation -->
+      <div class="user-dropdown udd-confirm" *ngIf="showLogoutConfirm">
+        <div class="udd-confirm-icon">
+          <span class="material-icons-round">logout</span>
+        </div>
+        <p class="udd-confirm-title">Logout?</p>
+        <p class="udd-confirm-msg">Are you sure you want to end your session?</p>
+        <div class="udd-confirm-btns">
+          <button class="udd-btn-cancel"
+                  (click)="cancelLogout(); $event.stopPropagation()">Cancel</button>
+          <button class="udd-btn-confirm"
+                  (click)="confirmLogout()">Yes, Logout</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<!-- Edit Profile Modal -->
+<app-dynamic-form-modal
+  [show]="showEditModal"
+  title="Edit Profile"
+  [fields]="profileFields"
+  [form]="editForm"
+  [saving]="saving"
+  (save)="saveProfile($event)"
+  (close)="closeEditModal()">
+</app-dynamic-form-modal>

@@ -1,0 +1,124 @@
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Banks</h1>
+    <p class="page-subtitle">Manage registered bank partners</p>
+  </div>
+  <button class="btn btn-primary" (click)="openAddModal()">
+    <span class="material-icons-round">add</span> Add Bank
+  </button>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="toolbar">
+      <div class="search-box">
+        <span class="material-icons-round">search</span>
+        <input [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" placeholder="Search..." />  
+      </div>
+    </div>
+    <span class="record-count">{{filtered.length}} records</span>
+  </div>
+
+  <div class="table-wrapper">
+    <div *ngIf="loading" class="loading-spinner"><div class="spinner"></div></div>
+    <table *ngIf="!loading">
+      <thead>
+  <tr>
+    <th>#</th>
+    <th class="sortable" (click)="sortBy('name')">
+      Name <span class="material-icons-round sort-icon">{{ getSortIcon('name') }}</span>
+    </th>
+    <th class="sortable" (click)="sortBy('shortName')">
+      Short Name <span class="material-icons-round sort-icon">{{ getSortIcon('shortName') }}</span>
+    </th>
+    <th class="sortable" (click)="sortBy('code')">
+      Code <span class="material-icons-round sort-icon">{{ getSortIcon('code') }}</span>
+    </th>
+    <th>Website</th>
+    <th class="sortable" (click)="sortBy('isGovernment')">
+      Govt. <span class="material-icons-round sort-icon">{{ getSortIcon('isGovernment') }}</span>
+    </th>
+    <th class="sortable" (click)="sortBy('status')">
+      Status <span class="material-icons-round sort-icon">{{ getSortIcon('status') }}</span>
+    </th>
+    <th class="sortable" (click)="sortBy('createdAt')">
+      Created <span class="material-icons-round sort-icon">{{ getSortIcon('createdAt') }}</span>
+    </th>
+     <th class="sortable" (click)="sortBy('updatedAt')">
+      Updated <span class="material-icons-round sort-icon">{{ getSortIcon('updatedAt') }}</span>
+    </th>
+    <th>Actions</th>
+  </tr>
+</thead>
+      <tbody>
+        <tr *ngFor="let item of paginated">
+          <!-- TODO: bind your fields here -->
+          <td class="td-id">{{item.bankId}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.shortName}}</td>
+          <td>{{item.code}}</td>
+          <td>{{item.website}}</td>
+          <td>{{item.isGovernment ? 'Yes' : 'No'}}</td>
+          <td>
+            <span class="badge"
+                  [ngClass]="{
+                    'badge-success': item.status === 'Active',
+                    'badge-inactive': item.status === 'Inactive'
+                  }">
+              {{ item.status }}
+            </span>
+          </td>
+          <td>{{ item.createdAt | date:'dd MMM yyyy, hh:mm a' }}</td>
+          <td>{{ item.updatedAt | date:'dd MMM yyyy, hh:mm a' }}</td>
+          <td>
+            <div class="td-actions">
+              <button class="btn-icon" (click)="openEditModal(item)"><span class="material-icons-round">edit</span></button>
+              <button class="btn-icon danger" (click)="confirmDelete(item)"><span class="material-icons-round">delete</span></button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="paginated.length === 0">
+          <td colspan="9">
+            <div class="empty-state">
+              <span class="material-icons-round">account_balance</span>
+              <p>No banks found</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+<app-pagination
+  [page]="page"
+  [pageSize]="pageSize"
+  [totalCount]="filtered.length"
+  (pageChange)="goToPage($event)"
+  (pageSizeChange)="onPageSizeChange($event)">
+</app-pagination>
+</div>
+
+<app-dynamic-form-modal
+  [show]="showModal"
+  [title]="editItem ? 'Edit Bank' : 'Add Bank'"
+  [fields]="bankFields"
+  [form]="form"
+  [saving]="saving"
+  (save)="saveItem($event)"
+  (close)="closeModal()">
+</app-dynamic-form-modal>
+
+<!-- Confirm Delete -->
+<div class="modal-overlay" *ngIf="showConfirm" (click)="showConfirm=false">
+  <div class="modal-box sm" (click)="$event.stopPropagation()">
+    <div class="modal-body" style="text-align:center; padding:32px 24px">
+      <div class="confirm-icon"><span class="material-icons-round">delete</span></div>
+      <h3 style="margin-bottom:8px">Confirm Delete</h3>
+      <p style="color:var(--text-secondary)">This action cannot be undone.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" (click)="showConfirm=false">Cancel</button>
+      <button class="btn btn-danger" (click)="deleteItem()">Delete</button>
+    </div>
+  </div>
+</div>
